@@ -1,0 +1,10 @@
+site_api_key.mypage:
+  path: '/apicheck/{key}/{nid}'
+  defaults:
+    _controller: '\Drupal\site_api_key\Controller\ApiKeyCheck::apicheck'
+  options:
+    parameters:
+      nid:
+        type: integer
+  requirements:
+    _permission: 'access content'
