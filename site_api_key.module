@@ -1,0 +1,32 @@
+<?php
+
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_help().
+ */
+
+function site_api_key_form_system_site_information_settings_alter(&$form, FormStateInterface $form_state) {
+  $siteapikey = '';
+  $siteapikey = \Drupal::config('api_key.settings')->get('siteapikey');
+  $form['site_information']['siteapikey'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Site API Key'),
+    '#default_value' => $siteapikey,
+    '#placeholder' => t('No API Key yet'),
+  );
+  $form['actions']['submit']['#value'] = t('Update Configuration');
+  $form['#submit'][] = 'site_api_key_siteinformation_submit_handler';
+}
+
+function site_api_key_siteinformation_submit_handler(&$form, FormStateInterface $formState) {
+  if( false == empty( $form['site_information']['siteapikey']['#value'] ) && $form['site_information']['siteapikey']['#value'] != \Drupal::config('api_key.settings')->get('siteapikey') ) {
+
+    \Drupal::configFactory()->getEditable('api_key.settings')
+      ->set('siteapikey', $form['site_information']['siteapikey']['#value'])
+      ->save();
+    drupal_set_message($form['site_information']['siteapikey']['#value'].' - Site API Key updated.');
+  }
+}
