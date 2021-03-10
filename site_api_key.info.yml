@@ -1,8 +1,0 @@
-name: Site API Key
-type: module
-description: Module for adding the Site API Key in Configuration 
-core: 8.x
-package: Custom
-
-dependencies:
-  - serialization
